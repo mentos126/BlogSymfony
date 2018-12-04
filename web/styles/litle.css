@@ -1,9 +1,39 @@
 body {
     padding-top: 54px;
+    
+}
+
+a {
+    color: rgb(0, 0, 0);
+    text-decoration: none !important;
 }
 
 @media (min-width: 92px) {
     body {
         padding-top: 56px;
     }
+}
+
+.pagination > li > a,
+.pagination > li > span{
+    color: rgb(38, 135, 191);
+
+}
+
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > span:focus{
+    background-color: #98cbfb;
+    color:rgb(38, 143, 191);
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus{
+    background-color: rgb(28, 136, 140);
+    color: #ffffff;
+    border: 1px solid #dddddd;
 }

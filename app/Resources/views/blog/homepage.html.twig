@@ -2,15 +2,15 @@
 
 {% block body %}
 
-  {% for article in articles %}
+  {% for article in articlesPaginated %}
     <div>
-      <h1 class="mt-4"> {{ article.title }}</h1>
+      <a href="{{path('post', {'id': 999 }) }}"><h1 class="mt-4"> {{ article.title }}</h1></a>
       <p class="lead">
         par
         <a href="#">{{ article.author }}</a>
       </p>
       <hr>
-      <p>Poster le {{ article.dateCreatedFormated }}</p>
+      <p>Poster le {{ article.dateCreatedFormated | date('d M Y H:i')}}</p>
       <hr>
       <img class="img-fluid rounded" height="100px" width="900px" src="{{ article.image }}" alt="image du post: {{ article.title }}">
       <hr>
@@ -68,5 +68,7 @@
     {% endfor %}
 
   {% endfor %}
+  
+  <div class="text-center">{{ knp_pagination_render(articlesPaginated) }}</div>
 
 {% endblock %}

@@ -1,5 +1,69 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-  {{id}}
+
+  <div>
+      <h1 class="mt-4"> {{ article.title }}</h1>
+      <p class="lead">
+        par
+        <a href="#">{{ article.author }}</a>
+      </p>
+      <hr>
+      <p>Poster le {{ article.dateCreatedFormated  | date('d M Y H:i') }}</p>
+      <hr>
+      <img class="img-fluid rounded" height="100px" width="900px" src="{{ article.image }}" alt="image du post: {{ article.title }}">
+      <hr>
+      {{ article.content | raw }}
+      <hr>
+    </div>
+
+    {% if user %}
+      <!-- Comments Form -->
+      <div class="card my-4">
+        <h5 class="card-header">Leave a Comment:</h5>
+        <div class="card-body">
+          <form>
+            <div class="form-group">
+              <textarea id="summernote" name="editordata" class="form-control" rows="3"></textarea>
+              <input id="res-summernote" type="text" value="" hidden> </input>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+      <script>
+        $('#summernote').summernote({
+          placeholder: 'Hello stand alone ui',
+          tabsize: 2,
+          height: 100,
+          focus: true,
+          toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']]
+          ]
+        });
+
+        $('#summernote').on('summernote.change', function(we, contents, $editable) {
+            $('#res-summernote').text(contents);
+        });
+
+
+      </script>
+    {% endif %}
+
+    {% for comment in article.comments %}
+      <!-- Single Comment -->
+      <div class="media mb-4">
+        <img class="d-flex mr-3 rounded-circle" height="50px" width="50px" src="{{ comment.authorImage }}" alt="image profile de {{ comment.authorName }}">
+        <div class="media-body">
+          <h5 class="mt-0">{{ comment.authorName }}</h5>
+          {{ comment.content | raw}}
+        </div>
+      </div>
+    {% endfor %}
+
 {% endblock %}
