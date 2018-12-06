@@ -14,11 +14,17 @@
       <hr>
       <img class="img-fluid rounded" height="100px" width="900px" src="{{ article.image }}" alt="image du post: {{ article.title }}">
       <hr>
-      {{ article.content | raw }}
+      <p>
+        {{ article.content | raw }}
+      </p> 
+      <hr>
+      <p>
+       <i class="fas fa-chevron-circle-down more-coms" id="more-coms-{{article.dateCreatedFormated}}"></i>  nombre de commentaire: {{ article.comments | length }} 
+      </p> 
       <hr>
     </div>
 
-    {% if user %}
+    {# {% if user %}
       <!-- Comments Form -->
       <div class="card my-4">
         <h5 class="card-header">Leave a Comment:</h5>
@@ -52,23 +58,45 @@
             $('#res-summernote').text(contents);
         });
 
-
       </script>
-    {% endif %}
+    {% endif %} #}
 
-    {% for comment in article.comments %}
-      <!-- Single Comment -->
-      <div class="media mb-4">
-        <img class="d-flex mr-3 rounded-circle" height="50px" width="50px" src="{{ comment.authorImage }}" alt="image profile de {{ comment.authorName }}">
-        <div class="media-body">
-          <h5 class="mt-0">{{ comment.authorName }}</h5>
-          {{ comment.content | raw}}
+    <div id="show-more-coms-{{article.dateCreatedFormated}}" style="visibility: hidden; height: 0;" >
+      {% for comment in article.comments %}
+        <!-- Single Comment -->
+        <div class="media mb-4">
+          <img class="d-flex mr-3 rounded-circle" height="50px" width="50px" src="{{ comment.authorImage }}" alt="image profile de {{ comment.authorName }}">
+          <div class="media-body">
+            <h5 class="mt-0">{{ comment.authorName }}</h5>
+            {{ comment.content | raw}}
+          </div>
         </div>
-      </div>
-    {% endfor %}
+      {% endfor %}
+    </div>
 
+    <br>
+    <br>
+  
   {% endfor %}
   
   <div class="text-center">{{ knp_pagination_render(articlesPaginated) }}</div>
+
+
+  <script>
+    var articles = document.getElementsByClassName("more-coms");
+    for (var i = 0; i < articles.length; i++){
+      articles[i].addEventListener("click", function( event ) {
+        var s = "show-" + event.target.id;
+        var res = document.getElementById(s);
+        if(res.style.cssText){
+          res.style.removeProperty('height');
+          res.style.removeProperty('visibility');
+        }else{
+          res.style.cssText = "visibility: hidden; height: 0;";
+        }
+      });
+    }
+  </script>
+
 
 {% endblock %}
