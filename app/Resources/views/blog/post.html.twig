@@ -3,17 +3,17 @@
 {% block body %}
 
   <div>
-      <h1 class="mt-4"> {{ article.title }}</h1>
+      <h1 class="mt-4"> {{ post.title }}</h1>
       <p class="lead">
         par
-        <a href="#">{{ article.author }}</a>
+        <a href="#">{{ post.author }}</a>
       </p>
       <hr>
-      <p>Poster le {{ article.dateCreatedFormated  | date('d M Y H:i') }}</p>
+      <p>Poster le {{ post.publishedFormated  | date('d M Y H:i') }}</p>
       <hr>
-      <img class="img-fluid rounded" height="100px" width="900px" src="{{ article.image }}" alt="image du post: {{ article.title }}">
+      <img class="img-fluid rounded" height="100px" width="900px" src="{{ post.picture }}" alt="image du post: {{ post.title }}">
       <hr>
-      {{ article.content | raw }}
+      {{ post.content | raw }}
       <hr>
     </div>
 
@@ -33,7 +33,7 @@
       </div>
     {% endif %}
 
-    {% for comment in article.comments %}
+    {% for comment in post.comments %}
       <!-- Single Comment -->
       <div class="media mb-4">
         <img class="d-flex mr-3 rounded-circle" height="50px" width="50px" src="{{ comment.authorImage }}" alt="image profile de {{ comment.authorName }}">

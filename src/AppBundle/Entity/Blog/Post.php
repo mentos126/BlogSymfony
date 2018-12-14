@@ -7,6 +7,9 @@ namespace AppBundle\Entity\Blog;
 
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Blog\Comment;
+use Symfony\Component\Validator\Constraints\DateTime;
+
+use Cocur\Slugify\Slugify;
 
 /**
  * Post
@@ -19,7 +22,8 @@ class Post
 
     public function __construct()
     {
-        $this->comments = new ArrayCollection();
+        $this->comments = "new ArrayCollection()";
+        $this->published = new \DateTime();
     }
 
     /**
@@ -38,6 +42,11 @@ class Post
      */
     private $title;
 
+    public function getSlug() : string
+    {
+        return (new Slugify())->slugify($this->title);
+    }
+
     /**
      * @var string
      *
@@ -55,13 +64,6 @@ class Post
     /**
      * @var string
      *
-     * @ORM\Column(name="publishedFormated", type="string", length=255)
-     */
-    private $publishedFormated;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="picture", type="string", length=255)
      */
     private $picture;
@@ -74,9 +76,9 @@ class Post
     private $content;
 
     /**
-     * @var array
+     * @var string
      *
-     * @ORM\Column(name="comments", type="simple_array", nullable=true)
+     * @ORM\Column(name="comments", type="string", nullable=true)
      */
     private $comments;
 
@@ -163,28 +165,9 @@ class Post
         return $this->published;
     }
 
-    /**
-     * Set publishedFormated
-     *
-     * @param string $publishedFormated
-     *
-     * @return Post
-     */
-    public function setPublishedFormated($publishedFormated)
+    public function getPublishedFormated() : string
     {
-        $this->publishedFormated = $publishedFormated;
-
-        return $this;
-    }
-
-    /**
-     * Get publishedFormated
-     *
-     * @return string
-     */
-    public function getPublishedFormated()
-    {
-        return $this->publishedFormated;
+        return $this->getPublished()->format('Y-m-d H:i:s');
     }
 
     /**
@@ -238,7 +221,7 @@ class Post
     /**
      * Set comments
      *
-     * @param array $comments
+     * @param string $comments
      *
      * @return Post
      */
@@ -252,7 +235,7 @@ class Post
     /**
      * Get comments
      *
-     * @return array
+     * @return string
      */
     public function getComments()
     {

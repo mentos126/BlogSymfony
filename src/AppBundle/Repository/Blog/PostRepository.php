@@ -10,4 +10,31 @@ namespace AppBundle\Repository\Blog;
  */
 class PostRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    /**
+     * @return Post[]
+     */
+    public function findPostOrderedDescMax50()  : array
+    {
+        return $this->createQueryBuilder('p')
+                    ->orderBy('p.published', 'DESC')
+                    ->setMaxResults(50)
+                    ->getQuery()
+                    ->getResult();
+    }
+
+    /**
+     * @return Post[]
+     */
+    public function findPostByTitleOrderedDescMax20(string $reqTitle)  : array
+    {
+        return $this->createQueryBuilder('p')
+                    ->andWhere('p.title like %:val%')
+                    ->setParameter('val', $reqTitle)
+                    ->orderBy('p.published', 'DESC')
+                    ->setMaxResults(20)
+                    ->getQuery()
+                    ->getResult();
+    }
+
 }

@@ -2,24 +2,24 @@
 
 {% block body %}
 
-  {% for article in articlesPaginated %}
+  {% for post in postsPaginated %}
     <div>
-      <a href="{{path('post', {'id': 999 }) }}"><h1 class="mt-4"> {{ article.title }}</h1></a>
+      <a href="{{path('post', {'slug': post.slug, 'id': post.id }) }}"><h1 class="mt-4"> {{ post.title }}</h1></a>
       <p class="lead">
         par
-        <a href="#">{{ article.author }}</a>
+        <a href="#">{{ post.author }}</a>
       </p>
       <hr>
-      <p>Poster le {{ article.dateCreatedFormated | date('d M Y H:i')}}</p>
+      <p>Poster le {{ post.publishedFormated | date('d M Y H:i')}}</p>
       <hr>
-      <img class="img-fluid rounded" height="100px" width="900px" src="{{ article.image }}" alt="image du post: {{ article.title }}">
+      <img class="img-fluid rounded" height="100px" width="900px" src="{{ post.picture }}" alt="image du post: {{ post.title }}">
       <hr>
       <p>
-        {{ article.content | raw }}
+        {{ post.content | raw }}
       </p> 
       <hr>
       <p>
-       <i class="fas fa-chevron-circle-down more-coms" id="more-coms-{{article.dateCreatedFormated}}"></i>  nombre de commentaire: {{ article.comments | length }} 
+       <i class="fas fa-chevron-circle-down more-coms" id="more-coms-{{post.publishedFormated}}"></i>  nombre de commentaire: {{ post.comments | length }} 
       </p> 
       <hr>
     </div>
@@ -61,8 +61,8 @@
       </script>
     {% endif %} #}
 
-    <div id="show-more-coms-{{article.dateCreatedFormated}}" style="visibility: hidden; height: 0;" >
-      {% for comment in article.comments %}
+    <div id="show-more-coms-{{post.publishedFormated}}" style="visibility: hidden; height: 0;" >
+      {% for comment in post.comments %}
         <!-- Single Comment -->
         <div class="media mb-4">
           <img class="d-flex mr-3 rounded-circle" height="50px" width="50px" src="{{ comment.authorImage }}" alt="image profile de {{ comment.authorName }}">
@@ -79,7 +79,7 @@
   
   {% endfor %}
   
-  <div class="text-center">{{ knp_pagination_render(articlesPaginated) }}</div>
+  <div class="text-center">{{ knp_pagination_render(postsPaginated) }}</div>
 
 
   <script>
