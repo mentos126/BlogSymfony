@@ -2,10 +2,12 @@
 # Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
 # https://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
-    database_host: 127.0.0.1
+    database_drivers: pdo_sqlite
+    database_host: ~
     database_port: ~
     database_name: symfony
-    database_user: root
+    database_path: "%kernel.root_dir%/blogdter.db"
+    database_user: ~
     database_password: ~
     # You should uncomment this if you want to use pdo_sqlite
     #database_path: '%kernel.project_dir%/var/data/data.sqlite'

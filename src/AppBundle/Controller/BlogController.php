@@ -63,7 +63,15 @@ class BlogController extends Controller
         array_push($articles, $a1);
         array_push($articles, $a1);
 
-        // $em = $this->getDoctrine()->getManager();
+        
+        $em = $this->getDoctrine()->getManager();
+
+
+        $posts = $this->getDoctrine()
+                    ->getRepository('AppBundle:Post')
+                    ->find();
+
+
 
         $articlesPaginated  = $this->get('knp_paginator')->paginate($articles, $request->query->get('page', 1), 6);
                
