@@ -64,12 +64,12 @@ class BlogController extends Controller
         array_push($articles, $a1);
 
         
-        $em = $this->getDoctrine()->getManager();
+        // $em = $this->getDoctrine()->getManager();
 
 
-        $posts = $this->getDoctrine()
-                    ->getRepository('AppBundle:Post')
-                    ->find();
+        // $posts = $this->getDoctrine()
+        //             ->getRepository('AppBundle:Post')
+        //             ->find();
 
 
 
