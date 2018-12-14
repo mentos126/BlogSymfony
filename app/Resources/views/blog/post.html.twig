@@ -31,28 +31,6 @@
           </form>
         </div>
       </div>
-      <script>
-        $('#summernote').summernote({
-          placeholder: 'Hello stand alone ui',
-          tabsize: 2,
-          height: 100,
-          focus: true,
-          toolbar: [
-            ['style', ['bold', 'italic', 'underline', 'clear']],
-            ['font', ['strikethrough', 'superscript', 'subscript']],
-            ['fontsize', ['fontsize']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['height', ['height']]
-          ]
-        });
-
-        $('#summernote').on('summernote.change', function(we, contents, $editable) {
-            $('#res-summernote').text(contents);
-        });
-
-
-      </script>
     {% endif %}
 
     {% for comment in article.comments %}
