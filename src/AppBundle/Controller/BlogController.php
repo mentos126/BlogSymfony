@@ -20,15 +20,15 @@ class BlogController extends Controller
     public function HomePageAction(Request $request)
     {
         // pour créer temporairemment des post
-        // $em = $this->getDoctrine()->getManager();
-        // $post = new Post();
-        // $post->setTitle('titre')
-        //     ->setAuthor('Author')
-        //     ->setPicture('picture')
-        //     ->setComments("je <p> suis </p>")
-        //     ->setContent("caca");
-        // $em->persist($post);
-        // $em->flush();
+        $em = $this->getDoctrine()->getManager();
+        $post = new Post();
+        $post->setTitle('titre')
+            ->setAuthor('Author')
+            ->setPicture('picture')
+            ->setComments("je <p> suis </p>")
+            ->setContent("content");
+        $em->persist($post);
+        $em->flush();
 
         $posts = $this->getDoctrine()
                     ->getRepository(Post::class)
