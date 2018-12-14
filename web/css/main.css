@@ -11,6 +11,20 @@ a {
 @media (min-width: 92px) {
     body {
         padding-top: 56px;
+    }body {
+        padding-top: 54px;
+        
+    }
+    
+    a {
+        color: rgb(0, 0, 0);
+        text-decoration: none !important;
+    }
+    
+    @media (min-width: 92px) {
+        body {
+            padding-top: 56px;
+        }
     }
 }
 
