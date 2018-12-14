@@ -2,6 +2,13 @@
 
 {% block body %}
 
+
+  {% for message in app.flashes('succes') %}
+      <div class="alert alert-success">
+          {{ message }}
+      </div>
+  {% endfor %}
+
   {% for post in postsPaginated %}
     <div>
       <a href="{{path('post', {'slug': post.slug, 'id': post.id }) }}"><h1 class="mt-4"> {{ post.title }}</h1></a>

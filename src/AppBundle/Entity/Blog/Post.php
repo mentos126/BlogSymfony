@@ -8,6 +8,8 @@ namespace AppBundle\Entity\Blog;
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Blog\Comment;
 use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 use Cocur\Slugify\Slugify;
 
@@ -16,6 +18,7 @@ use Cocur\Slugify\Slugify;
  *
  * @ORM\Table(name="blog_post")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\Blog\PostRepository")
+ * @UniqueEntity("title")
  */
 class Post
 {
@@ -24,6 +27,7 @@ class Post
     {
         $this->comments = "new ArrayCollection()";
         $this->published = new \DateTime();
+        $this->author = "default";
     }
 
     /**
@@ -38,6 +42,7 @@ class Post
     /**
      * @var string
      *
+     * @Assert\Length(min=5, max=255)
      * @ORM\Column(name="title", type="string", length=255)
      */
     private $title;
@@ -71,6 +76,7 @@ class Post
     /**
      * @var string
      *
+     * @Assert\Length(min=5, max=666)
      * @ORM\Column(name="content", type="text")
      */
     private $content;

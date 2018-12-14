@@ -10,6 +10,7 @@ use \Datetime;
 
 use AppBundle\Entity\Blog\Post;
 use AppBundle\AppBundle;
+use AppBundle\Form\Blog\PostType;
 
 class BlogController extends Controller
 {
@@ -20,15 +21,15 @@ class BlogController extends Controller
     public function HomePageAction(Request $request)
     {
         // pour créer temporairemment des post
-        $em = $this->getDoctrine()->getManager();
-        $post = new Post();
-        $post->setTitle('titre')
-            ->setAuthor('Author')
-            ->setPicture('picture')
-            ->setComments("je <p> suis </p>")
-            ->setContent("content");
-        $em->persist($post);
-        $em->flush();
+        // $em = $this->getDoctrine()->getManager();
+        // $post = new Post();
+        // $post->setTitle('titre')
+        //     ->setAuthor('Author')
+        //     ->setPicture('picture')
+        //     ->setComments("je <p> suis </p>")
+        //     ->setContent("content");
+        // $em->persist($post);
+        // $em->flush();
 
         $posts = $this->getDoctrine()
                     ->getRepository(Post::class)
@@ -66,27 +67,84 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/ajout", name="ajout")
+     * @Route("/new", name="ajout")
+     * @return Response
      */
-    public function NewAction($id)
+    public function NewAction(Request $request)
     {
-        return $this->render('blog/ajout.html.twig');
+        $post = new Post();
+        $form =$this->createForm(PostType::class, $post);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($post);
+            $em->flush();
+            $this->addFlash('succes', 'Article ajouté avec succès');
+            return $this->redirectToRoute('homepage');
+        }
+
+        return $this->render('blog/ajout.html.twig', [
+            'form'=> $form->createView(),
+            'post' => $post
+        ]);
     }
 
     /**
      * @Route("/edit/{id}", name="edit")
      */
-    public function EditAction($id)
+    public function EditAction($id, Request $request)
     {
-        return $this->render('blog/edit.html.twig');
+        //TODO use summertext in twig
+
+        $post = $this->getDoctrine()
+                    ->getRepository(Post::class)
+                    ->findOneBy(['id' => $id,]);
+
+        if($post == null) {
+            return $this->redirectToRoute('error404', ['id' => '404',], 301);
+        } else {
+            $form =$this->createForm(PostType::class, $post);
+            $form->handleRequest($request);
+
+            if($form->isSubmitted() && $form->isValid()){
+                $em = $this->getDoctrine()->getManager();
+                $em->flush();
+                $this->addFlash('succes', 'Article modifié avec succès');
+                return $this->redirectToRoute('homepage');
+            }
+            return $this->render('blog/edit.html.twig', [
+                'form'=> $form->createView(),                
+                'post' => $post
+                ]);
+        }
     }
 
     /**
-     * @Route("/delete/{id}", name="delete")
+     * @Route("/delete/{id}", name="delete", methods="DELETE")
      */
-    public function DeleteAction($id)
+    public function DeleteAction($id, Request $request)
     {
-        return $this->render('blog/delete.html.twig');
+        $post = $this->getDoctrine()
+                    ->getRepository(Post::class)
+                    ->findOneBy(['id' => $id,]);
+
+        if($post == null) {
+            return $this->redirectToRoute('error404', ['id' => '404',], 301);
+        } else {
+            if ($this->isCsrfTokenValid('delete' . $post->getId(), $request->get('_token')))
+            {
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($post);
+                $em->flush();
+                $this->addFlash('succes', 'Article supprimé avec succès');
+                return $this->redirectToRoute('homepage');
+            }
+            return $this->redirectToRoute('edit', [
+                'id' => $post->getId(),
+            ],200);
+        }
+
     }
 
 
@@ -96,27 +154,9 @@ class BlogController extends Controller
      */
     public function Error404Action($id)
     {
-        return $this->render('error404.html.twig');
+        return $this->render('blog/error404.html.twig');
     }
 
 }
 
-
-class Article
-{
-    public $title;
-    public $author;
-    public $dateCreated;
-    public $dateCreatedFormated;
-    public $image;
-    public $content;
-    public $comments;
-}
-
-class Comment
-{
-    public $content;
-    public $authorImage;
-    public $authorName;
-}
 
