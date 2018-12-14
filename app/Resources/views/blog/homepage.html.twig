@@ -31,43 +31,6 @@
       <hr>
     </div>
 
-    {# {% if user %}
-      <!-- Comments Form -->
-      <div class="card my-4">
-        <h5 class="card-header">Leave a Comment:</h5>
-        <div class="card-body">
-          <form>
-            <div class="form-group">
-              <textarea id="summernote" name="editordata" class="form-control" rows="3"></textarea>
-              <input id="res-summernote" type="text" value="" hidden></input>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
-        </div>
-      </div>
-      <script>
-        $('#summernote').summernote({
-          placeholder: 'Hello stand alone ui',
-          tabsize: 2,
-          height: 100,
-          focus: true,
-          toolbar: [
-            ['style', ['bold', 'italic', 'underline', 'clear']],
-            ['font', ['strikethrough', 'superscript', 'subscript']],
-            ['fontsize', ['fontsize']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['height', ['height']]
-          ]
-        });
-
-        $('#summernote').on('summernote.change', function(we, contents, $editable) {
-            $('#res-summernote').text(contents);
-        });
-
-      </script>
-    {% endif %} #}
-
     <div id="show-more-coms-{{post.publishedFormated}}" style="visibility: hidden; height: 0;" >
       {% for comment in post.comments %}
         <!-- Single Comment -->
@@ -88,7 +51,6 @@
   
   <div class="text-center">{{ knp_pagination_render(postsPaginated) }}</div>
 
-
   <script>
     var articles = document.getElementsByClassName("more-coms");
     for (var i = 0; i < articles.length; i++){
@@ -105,5 +67,20 @@
     }
   </script>
 
+{% endblock %}
 
+{% block search %}
+  <div class="card my-4">
+      <h5 class="card-header">Recherche</h5>
+      <div class="card-body">
+          {{ form_start(formSearch) }}
+          <div class="input-group">
+              {{ form_row(formSearch.partTitle) }}
+              <span class="input-group-btn">
+                  <button class="btn btn-secondary" >Go!</button>
+              </span>
+          </div>
+          {{ form_end(formSearch) }}
+      </div>
+  </div>
 {% endblock %}

@@ -2,10 +2,14 @@
 
 namespace AppBundle\Entity\Blog;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
+
 class PostSearch {
 
     /**
      * @var string|null
+     * @Assert\Length(min=0, max=255) 
      */
     private $partTitle;
 

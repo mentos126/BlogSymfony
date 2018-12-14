@@ -11,6 +11,8 @@ use \Datetime;
 use AppBundle\Entity\Blog\Post;
 use AppBundle\AppBundle;
 use AppBundle\Form\Blog\PostType;
+use AppBundle\Entity\Blog\PostSearch;
+use AppBundle\Form\Blog\PostSearchType;
 
 class BlogController extends Controller
 {
@@ -20,6 +22,10 @@ class BlogController extends Controller
      */
     public function HomePageAction(Request $request)
     {
+        $search = new PostSearch();
+        $formSearch = $this->createForm(PostSearchType::class, $search);
+        $formSearch->handleRequest($request);
+
         // pour créer temporairemment des post
         // $em = $this->getDoctrine()->getManager();
         // $post = new Post();
@@ -33,7 +39,7 @@ class BlogController extends Controller
 
         $posts = $this->getDoctrine()
                     ->getRepository(Post::class)
-                    ->findPostOrderedDescMax50();
+                    ->findPostOrderedDescMax50($search);
 
         $postsPaginated  = $this->get('knp_paginator')->paginate($posts, $request->query->get('page', 1), 6);
                
@@ -41,6 +47,7 @@ class BlogController extends Controller
         [
             'user' => false,
             'postsPaginated' => $postsPaginated,
+            'formSearch' => $formSearch->createView(), 
         ]);
     }
 
