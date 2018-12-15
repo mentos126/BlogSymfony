@@ -59,8 +59,6 @@ class BlogController extends Controller
 
         if($formComment->isSubmitted() && $formComment->isValid())
         {
-            dump($register);
-            dump($formComment);
             $com = new Comment();
             $com->setContent($register->getMessage())
                 ->setPost($post)
