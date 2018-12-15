@@ -17,18 +17,21 @@
       <hr>
     </div>
 
+    <button class="btn btn-primary"><a class="nav-link" href="{{ path('edit', {id: post.id, slug: post.slug}) }}">Edition</a></button>
+
     {% if user %}
       <!-- Comments Form -->
       <div class="card my-4">
         <h5 class="card-header">Leave a Comment:</h5>
         <div class="card-body">
-          <form>
             <div class="form-group">
               <textarea id="summernote" name="editordata" class="form-control" rows="3"></textarea>
               <input id="res-summernote" type="text" value="" hidden> </input>
             </div>
+            {{ form_start(formComment) }}
+            {{ form_row(formComment.message) }}
             <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
+            {{ form_end(formComment) }}
         </div>
       </div>
     {% endif %}
@@ -36,37 +39,20 @@
     {% for comment in post.comments %}
       <!-- Single Comment -->
       <div class="media mb-4">
-        <img class="d-flex mr-3 rounded-circle" height="50px" width="50px" src="{{ comment.authorImage }}" alt="image profile de {{ comment.authorName }}">
+        <img class="d-flex mr-3 rounded-circle" height="50px" width="50px" src="https://via.placeholder.com/30" alt="image profile de {{ comment.author }}">
         <div class="media-body">
-          <h5 class="mt-0">{{ comment.authorName }}</h5>
+          <h5 class="mt-0">{{ comment.author }}</h5>
           {{ comment.content | raw}}
         </div>
       </div>
     {% endfor %}
 
     <script>
-      $('#summernote').summernote({
-          placeholder: 'Commenter',
-          tabsize: 2,
-          height: 100,
-          focus: true,
-          toolbar: [
-          ['style', ['bold', 'italic', 'underline', 'clear']],
-          ['font', ['strikethrough', 'superscript', 'subscript']],
-          ['fontsize', ['fontsize']],
-          ['color', ['color']],
-          ['para', ['ul', 'ol', 'paragraph']],
-          ['height', ['height']]
-          ],
-          popover: {
-            air: []
-          }
-      }); 
-
+      $('#summernote').summernote("code",''); 
+      $('#message').hide();
       $('#summernote').on('summernote.change', function(we, contents, $editable) {
-          $('#res-summernote').text(contents);
+          $('#message').val(contents);
       }); 
-
     </script>
 
 {% endblock %}

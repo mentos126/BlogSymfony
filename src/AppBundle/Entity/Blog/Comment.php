@@ -36,6 +36,10 @@ class Comment
      */
     private $content;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Blog\Post", inversedBy="comments")
+     */
+    private $post;
 
     /**
      * Get id
@@ -94,5 +98,34 @@ class Comment
     {
         return $this->content;
     }
+
+
+
+/**
+     * Set comments
+     *
+     *
+     * @return Comment
+     */
+    public function setPost(Post $post) : self
+    {
+        $this->post = $post;
+
+        return $this;
+    }
+
+
+    /**
+     * Get comments
+     *
+     * @return Post
+     */
+    public function getComments() : Post
+    {
+        return $this->post;
+    }
+
+
+
 }
 

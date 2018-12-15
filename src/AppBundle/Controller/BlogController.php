@@ -13,6 +13,9 @@ use AppBundle\AppBundle;
 use AppBundle\Form\Blog\PostType;
 use AppBundle\Entity\Blog\PostSearch;
 use AppBundle\Form\Blog\PostSearchType;
+use AppBundle\Entity\Blog\RegisterComment;
+use AppBundle\Form\Blog\RegisterCommentType;
+use AppBundle\Entity\Blog\Comment;
 
 class BlogController extends Controller
 {
@@ -25,17 +28,6 @@ class BlogController extends Controller
         $search = new PostSearch();
         $formSearch = $this->createForm(PostSearchType::class, $search);
         $formSearch->handleRequest($request);
-
-        // pour créer temporairemment des post
-        // $em = $this->getDoctrine()->getManager();
-        // $post = new Post();
-        // $post->setTitle('titre')
-        //     ->setAuthor('Author')
-        //     ->setPicture('picture')
-        //     ->setComments("je <p> suis </p>")
-        //     ->setContent("content");
-        // $em->persist($post);
-        // $em->flush();
 
         $posts = $this->getDoctrine()
                     ->getRepository(Post::class)
@@ -55,26 +47,48 @@ class BlogController extends Controller
      * @Route("/post/{slug}-{id}", name="post", requirements={"slug": "[a-zA-Z0-9\-]*"})
      * @return Response
      */
-    public function PostAction(int $id, string $slug)
+    public function PostAction(int $id, string $slug, Request $request)
     {
+        $register = new RegisterComment();
+        $formComment = $this->createForm(RegisterCommentType::class, $register);
+        $formComment->handleRequest($request);
 
         $post = $this->getDoctrine()
                     ->getRepository(Post::class)
                     ->findOneBy(['id' => $id,]);
 
+        if($formComment->isSubmitted() && $formComment->isValid())
+        {
+            dump($register);
+            dump($formComment);
+            $com = new Comment();
+            $com->setContent($register->getMessage())
+                ->setPost($post)
+                ->setAuthor("Pas encore de profil");
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($com);
+
+            $post->addComment($com);
+
+            $em->flush();
+
+        }
+
         if($post == null || $post->getSlug() !== $slug) {
             return $this->redirectToRoute('error404', ['id' => '404',], 301);
         } else {
             return $this->render('blog/post.html.twig', [
+                'user' => true,
                 'post'=> $post,
-                'user' => true 
+                'formComment' => $formComment->createView(), 
+
                 ]);
         }
 
     }
 
     /**
-     * @Route("/new", name="ajout")
+     * @Route("/new", name="new")
      * @return Response
      */
     public function NewAction(Request $request)
@@ -91,24 +105,23 @@ class BlogController extends Controller
             return $this->redirectToRoute('homepage');
         }
 
-        return $this->render('blog/ajout.html.twig', [
+        return $this->render('blog/new.html.twig', [
             'form'=> $form->createView(),
             'post' => $post
         ]);
     }
 
     /**
-     * @Route("/edit/{id}", name="edit")
+     * @Route("/edit/{slug}-{id}", name="edit", requirements={"slug": "[a-zA-Z0-9\-]*"})
      */
-    public function EditAction($id, Request $request)
+    public function EditAction($id, string $slug, Request $request)
     {
-        //TODO use summertext in twig
 
         $post = $this->getDoctrine()
                     ->getRepository(Post::class)
                     ->findOneBy(['id' => $id,]);
 
-        if($post == null) {
+        if($post == null || $post->getSlug() !== $slug) {
             return $this->redirectToRoute('error404', ['id' => '404',], 301);
         } else {
             $form =$this->createForm(PostType::class, $post);
@@ -142,6 +155,9 @@ class BlogController extends Controller
             if ($this->isCsrfTokenValid('delete' . $post->getId(), $request->get('_token')))
             {
                 $em = $this->getDoctrine()->getManager();
+                foreach($post->getComments() as $c) {
+                    $em->remove($c);
+                }
                 $em->remove($post);
                 $em->flush();
                 $this->addFlash('succes', 'Article supprimé avec succès');

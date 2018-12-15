@@ -2,9 +2,6 @@
 
 namespace AppBundle\Entity\Blog;
 
-//  @ORM\OneToMany(targetEntity="Comment", mappedBy="comments")
-//  @ORM\JoinColumn(name="category_id", referencedColumnName="id")
-
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Blog\Comment;
 use Symfony\Component\Validator\Constraints\DateTime;
@@ -12,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 use Cocur\Slugify\Slugify;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Post
@@ -25,7 +23,7 @@ class Post
 
     public function __construct()
     {
-        $this->comments = "new ArrayCollection()";
+        $this->comments = new ArrayCollection();
         $this->published = new \DateTime();
         $this->author = "default";
     }
@@ -82,9 +80,10 @@ class Post
     private $content;
 
     /**
-     * @var string
+     * @var Collection|Comment[]
+     * 
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Blog\Comment", mappedBy="post")
      *
-     * @ORM\Column(name="comments", type="string", nullable=true)
      */
     private $comments;
 
@@ -227,13 +226,31 @@ class Post
     /**
      * Set comments
      *
-     * @param string $comments
      *
      * @return Post
      */
-    public function setComments($comments)
+    public function addComment(Comment $comment) : self
     {
-        $this->comments = $comments;
+        if(!$this->comments->contains($comment))
+        {
+            $this->comments[] = $comment;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set comments
+     *
+     *
+     * @return Post
+     */
+    public function remmoveComment(Comment $comment) : self
+    {
+        if(!$this->comments->contains($comment))
+        {
+            $this->comments->removeElement($comment);
+        }
 
         return $this;
     }
@@ -241,9 +258,9 @@ class Post
     /**
      * Get comments
      *
-     * @return string
+     * @return Collection|Comment[]
      */
-    public function getComments()
+    public function getComments() 
     {
         return $this->comments;
     }
