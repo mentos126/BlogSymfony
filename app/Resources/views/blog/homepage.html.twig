@@ -26,7 +26,7 @@
       </p> 
       <hr>
       <p>
-       <i class="fas fa-chevron-circle-down more-coms" id="more-coms-{{post.publishedFormated}}"></i>  nombre de commentaire: {{ post.comments | length }} 
+       <i class="fas fa-chevron-circle-down more-coms" id="more-coms-{{post.slug ~ post.id}}"></i>  nombre de commentaire: {{ post.comments | length }} 
       </p> 
       <hr>
     </div>
