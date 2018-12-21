@@ -3,18 +3,27 @@
 {% block body %}
 
   <div class="container mt-4">
-      <h1>Editer l'article 
-        <a href="{{path('post', {'slug': post.slug, 'id': post.id }) }}">
-          <span style=" color: #0069d9;">{{ post.title }}</span> 
-        </a>
-      </h1>
-      {{ include('blog/post_form.html.twig', {form: form, button: 'Editer'}) }}
-      <form method="post" action="{{ path('delete', {'id': post.id}) }}" onsubmit="return confirm('Etes vous vraiment sûr ?')">
-        <input type="hidden" name="_method" value="DELETE">
-        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ post.id) }}">
-        <button class="btn btn-danger">Supprimer</button>
-      </form>
 
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-9">
+          <h1>Editer l'article
+            <a href="{{path('post', {'slug': post.slug, 'id': post.id }) }}">
+              <span style=" color: #0069d9;">{{ post.title }}</span>
+            </a>
+          </h1>
+        </div>
+        <div class="col-sm-3">
+          <form method="post" action="{{ path('delete', {'id': post.id}) }}" onsubmit="return confirm('Etes vous vraiment sûr ?')">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ post.id) }}">
+            <button class="btn btn-danger">Supprimer</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    {{ include('blog/post_form.html.twig', {form: form, button: 'Editer'}) }}
   </div>
 
 {% endblock %}

@@ -51,3 +51,18 @@ a {
     color: #ffffff;
     border: 1px solid #dddddd;
 }
+
+#navbar {
+    transition: top 0.4s;
+}
+
+.footer-container {
+    min-height:  calc(100vh - 56px - 120px);
+    position: relative;
+}
+
+#footer {
+    position: absolute;
+    width: 99vw;
+    bottom: 0;
+}

@@ -17,9 +17,9 @@
         <a href="#">{{ post.author }}</a>
       </p>
       <hr>
-      <p>Poster le {{ post.publishedFormated | date('d M Y H:i')}}</p>
+      <p>Posté le {{ post.publishedFormated | date('d M Y H:i')}}</p>
       <hr>
-      <img class="img-fluid rounded" height="100px" width="900px" src="{{ post.picture }}" alt="image du post: {{ post.title }}">
+      <img class="img-fluid rounded" height="100px" width="900px" src="http://placehold.it/900x300" alt="image du post: {{ post.title }}">
       <hr>
       <p>
         {{ post.content | raw }}
