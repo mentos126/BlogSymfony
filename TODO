@@ -1,14 +1,15 @@
 In progress:
 
-acount
-relation post <-> profile
-relation profile <-> comment
+relation post <-> user
+relation user <-> comment
 
 TODO:
 
-picture
 cache
+block page to user not permise
+diviser les controleurs
 
+-picture impossible sur heroku !!!
 -resetPassword
 
 ------------
