@@ -17,6 +17,9 @@ use AppBundle\Entity\Blog\RegisterComment;
 use AppBundle\Form\Blog\RegisterCommentType;
 use AppBundle\Entity\Blog\Comment;
 
+ /**
+     * @Route("/post/crud")
+     */
 class CrudPostController extends Controller
 {
    
@@ -31,6 +34,10 @@ class CrudPostController extends Controller
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+
+            $user = $this->getUser();
+            $post->setUser($user);
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
             $em->flush();
@@ -54,7 +61,9 @@ class CrudPostController extends Controller
                     ->getRepository(Post::class)
                     ->findOneBy(['id' => $id,]);
 
-        if($post == null || $post->getSlug() !== $slug) {
+        $user = $this->getUser();
+
+        if($post == null || $post->getUser() != $user || $post->getSlug() !== $slug) {
             return $this->redirectToRoute('error404', ['id' => '404',], 301);
         } else {
             $form =$this->createForm(PostType::class, $post);
@@ -82,7 +91,10 @@ class CrudPostController extends Controller
                     ->getRepository(Post::class)
                     ->findOneBy(['id' => $id,]);
 
-        if($post == null) {
+        $user = $this->getUser();
+
+                    
+        if($post == null || $post->getUser() != $user ) {
             return $this->redirectToRoute('error404', ['id' => '404',], 301);
         } else {
             if ($this->isCsrfTokenValid('delete' . $post->getId(), $request->get('_token')))

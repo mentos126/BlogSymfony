@@ -8,6 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Blog\Post;
 use AppBundle\Entity\Blog\Comment;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
+
 /**
  * @ORM\Entity
  * @ORM\Table(name="fos_user")

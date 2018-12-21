@@ -35,12 +35,15 @@ class BlogController extends Controller
 
         $postsPaginated  = $this->get('knp_paginator')->paginate($posts, $request->query->get('page', 1), 6);
                
-        return $this->render('blog/homepage.html.twig', 
+        $response =  $this->render('blog/homepage.html.twig', 
         [
-            'user' => false,
             'postsPaginated' => $postsPaginated,
             'formSearch' => $formSearch->createView(), 
         ]);
+        // $response->setEtag(md5($response->getContent()));
+        // $response->setPublic();
+        // $response->isNotModified($request);
+        return $response;
     }
 
     /**
@@ -60,6 +63,10 @@ class BlogController extends Controller
         if($formComment->isSubmitted() && $formComment->isValid())
         {
             $com = new Comment();
+         
+            $user = $this->getUser();
+            $com->setUser($user);
+         
             $com->setContent($register->getMessage())
                 ->setPost($post)
                 ->setAuthor("Pas encore de profil");
@@ -72,11 +79,21 @@ class BlogController extends Controller
 
         }
 
+        $isMyPost = false;
+        $user = $this->getUser();
+        if($user != null)
+        {
+            if($user == $post->getUser())
+            {
+                $isMyPost = true;
+            }
+        }
+
         if($post == null || $post->getSlug() !== $slug) {
             return $this->redirectToRoute('error404', ['id' => '404',], 301);
         } else {
             return $this->render('blog/post.html.twig', [
-                'user' => true,
+                'user' => $isMyPost,
                 'post'=> $post,
                 'formComment' => $formComment->createView(), 
 

@@ -2,60 +2,71 @@
 
 {% block body %}
 
-  <div>
-      <h1 class="mt-4"> {{ post.title }}</h1>
-      <p class="lead">
-        par
-        <a href="#">{{ post.author }}</a>
-      </p>
-      <hr>
-      <p>Posté le {{ post.publishedFormated  | date('d M Y H:i') }}</p>
-      <hr>
-      <img class="img-fluid rounded" height="100px" width="900px" src="http://placehold.it/900x300" alt="image du post: {{ post.title }}">
-      <hr>
-      {{ post.content | raw }}
-      <hr>
+<div>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-9">
+        <h1 class="mt-4"> {{ post.title }}</h1>
+      </div>
+      <div class="col-sm-3">
+        {% if user %}
+        <a class="nav-link" href="{{ path('edit', {id: post.id, slug: post.slug}) }}"><button class="btn btn-warning">Edition</button></a>
+        {% endif %}
+      </div>
     </div>
+  </div>
+  <p class="lead">
+    par
+    <a href="#">{{ post.user.username }}</a>
+  </p>
+  <hr>
+  <p>Posté le {{ post.publishedFormated | date('d M Y H:i') }}</p>
+  <hr>
+  <img class="img-fluid rounded" height="100px" width="900px" src="http://placehold.it/900x300" alt="image du post: {{ post.title }}">
+  <hr>
+  {{ post.content | raw }}
+  <hr>
+</div>
 
 
-    {% if user %}
-      
-      <a class="nav-link" href="{{ path('edit', {id: post.id, slug: post.slug}) }}"><button class="btn btn-primary">Edition</button></a>
-      
-      <!-- Comments Form -->
-      <div class="card my-4">
-        <h5 class="card-header">Leave a Comment:</h5>
-        <div class="card-body">
-            <div class="form-group">
-              <textarea id="summernote" name="editordata" class="form-control" rows="3"></textarea>
-              <input id="res-summernote" type="text" value="" hidden> </input>
-            </div>
-            {{ form_start(formComment) }}
-            {{ form_row(formComment.message) }}
-            <button type="submit" class="btn btn-primary">Submit</button>
-            {{ form_end(formComment) }}
-        </div>
+<!-- Comments Form -->
+<div class="card my-4">
+  <h5 class="card-header">Laissé un commentaire:</h5>
+  <div class="card-body">
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+      <div class="form-group">
+        <textarea id="summernote" name="editordata" class="form-control" rows="3"></textarea>
+        <input id="res-summernote" type="text" value="" hidden> </input>
       </div>
-      
+      {{ form_start(formComment) }}
+      {{ form_row(formComment.message) }}
+      <button type="submit" class="btn btn-primary">Commenter</button>
+      {{ form_end(formComment) }}
+    {% else %}
+      <button class="btn btn-primary">connexion</button>
     {% endif %}
+  </div>
+</div>
 
-    {% for comment in post.comments %}
-      <!-- Single Comment -->
-      <div class="media mb-4">
-        <img class="d-flex mr-3 rounded-circle" height="50px" width="50px" src="https://via.placeholder.com/30" alt="image profile de {{ comment.author }}">
-        <div class="media-body">
-          <h5 class="mt-0">{{ comment.author }}</h5>
-          {{ comment.content | raw}}
-        </div>
-      </div>
-    {% endfor %}
 
-    <script>
-      $('#summernote').summernote("code",''); 
-      $('#message').hide();
-      $('#summernote').on('summernote.change', function(we, contents, $editable) {
-          $('#message').val(contents);
-      }); 
-    </script>
+
+{% for comment in post.comments %}
+<!-- Single Comment -->
+<div class="media mb-4">
+  <img class="d-flex mr-3 rounded-circle" height="50px" width="50px" src="https://via.placeholder.com/30" alt="image profile de {{ comment.author }}">
+  <div class="media-body">
+    <h5 class="mt-0">{{ comment.user.username }}</h5>
+    {{ comment.content | raw}}
+  </div>
+</div>
+{% endfor %}
+
+<script>
+  $('#summernote').summernote("code", '');
+  $('#message').hide();
+  $('#summernote').on('summernote.change', function (we, contents, $editable) {
+    $('#message').val(contents);
+  });
+</script>
 
 {% endblock %}

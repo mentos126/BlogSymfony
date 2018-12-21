@@ -14,7 +14,7 @@
       <a href="{{path('post', {'slug': post.slug, 'id': post.id }) }}"><h1 class="mt-4"> {{ post.title }}</h1></a>
       <p class="lead">
         par
-        <a href="#">{{ post.author }}</a>
+        <a href="#">{{ post.user }}</a>
       </p>
       <hr>
       <p>Posté le {{ post.publishedFormated | date('d M Y H:i')}}</p>
@@ -37,7 +37,7 @@
         <div class="media mb-4">
           <img class="d-flex mr-3 rounded-circle" height="50px" width="50px" src="https://via.placeholder.com/30" alt="image profile de {{ comment.author }}">
           <div class="media-body">
-            <h5 class="mt-0">{{ comment.author }}</h5>
+            <h5 class="mt-0">{{ comment.user.username }}</h5>
             {{ comment.content | raw}}
           </div>
         </div>

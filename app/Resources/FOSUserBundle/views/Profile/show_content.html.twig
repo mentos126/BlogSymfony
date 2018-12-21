@@ -16,7 +16,8 @@
                                 </div>
                                 <div class="userData ml-3">
                                     <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><a href="javascript:void(0);">{{ user.username }}</a></h2>
-                                    <h6 class="d-block"><a href="javascript:void(0)">300</a> Blog Posts</h6>
+                                    <h6 class="d-block"><a href="javascript:void(0)">{{ user.posts | length }}</a> Postes</h6>
+                                    <h6 class="d-block"><a href="javascript:void(0)">{{ user.comments | length }}</a> Commentaires</h6>
                                 </div>
                                 <div class="ml-auto">
                                     <input type="button" class="btn btn-primary d-none" id="btnDiscard" value="Discard Changes" />

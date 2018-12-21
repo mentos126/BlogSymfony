@@ -1,39 +1,12 @@
 In progress:
 
-relation post <-> user
-relation user <-> comment
+mail
 
 TODO:
 
-cache
-block page to user not permise
-diviser les controleurs
-secure crud with fosuser
+?? cache
+?? admin
+
 
 -picture impossible sur heroku !!!
 -resetPassword
-
-------------
-
-git FOSUserBundle
-
-https://github.com/FriendsOfSymfony/FOSUserBundle
-https://symfony.com/doc/master/bundles/FOSUserBundle/index.html
-
- php composer.phar require friendsofsymfony/user-bundle "~2.0"
-
-php-cli.ini
-memory_limit=2g
-
-vim app/AppKernel.php
-        new FOS\UserBundle\FOSUserBundle(),
-
-suivre la doc ...
-
-??? composer require symfony/templating
-
-
-fos user:
-    ...
-    service:
-        mailer: fos_user.mailer.twig_swift

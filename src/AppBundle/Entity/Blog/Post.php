@@ -4,6 +4,7 @@ namespace AppBundle\Entity\Blog;
 
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Blog\Comment;
+use AppBundle\Entity\User;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -268,6 +269,30 @@ class Post
     public function getComments() 
     {
         return $this->comments;
+    }
+
+    /**
+     * Set user
+     *
+     *
+     * @return User
+     */
+    public function setUser(User $user) : self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+
+    /**
+     * Get user
+     *
+     * @return User
+     */
+    public function getUser() : User
+    {
+        return $this->user;
     }
 }
 
