@@ -17,9 +17,11 @@
       <hr>
     </div>
 
-    <a class="nav-link" href="{{ path('edit', {id: post.id, slug: post.slug}) }}"><button class="btn btn-primary">Edition</button></a>
 
     {% if user %}
+      
+      <a class="nav-link" href="{{ path('edit', {id: post.id, slug: post.slug}) }}"><button class="btn btn-primary">Edition</button></a>
+      
       <!-- Comments Form -->
       <div class="card my-4">
         <h5 class="card-header">Leave a Comment:</h5>
@@ -34,6 +36,7 @@
             {{ form_end(formComment) }}
         </div>
       </div>
+      
     {% endif %}
 
     {% for comment in post.comments %}
