@@ -1,12 +1,11 @@
 In progress:
 
-mail
 
 TODO:
 
 ?? cache
 ?? admin
+?? mail
+?? resetPassword
 
-
--picture impossible sur heroku !!!
--resetPassword
+-picture impossible in heroku !!!

@@ -33,7 +33,14 @@ class BlogController extends Controller
                     ->getRepository(Post::class)
                     ->findPostOrderedDescMax50($search);
 
-        $postsPaginated  = $this->get('knp_paginator')->paginate($posts, $request->query->get('page', 1), 6);
+        $postsPaginated = null;
+        if(count($posts) != 0)
+        {
+            $postsPaginated  = $this->get('knp_paginator')->paginate($posts, $request->query->get('page', 1), 5);
+        }
+
+        dump(count($posts));
+        dump($postsPaginated);
                
         $response =  $this->render('blog/homepage.html.twig', 
         [
