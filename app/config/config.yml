@@ -29,7 +29,10 @@ framework:
     assets: ~
     php_errors:
         log: true
-    translator: { fallbacks: ['%locale%'] }
+    translator: 
+        fallbacks: ['%locale%']
+        paths:
+            - '%kernel.project_dir%/app/Resources/translations'
 
 # Twig Configuration
 twig:

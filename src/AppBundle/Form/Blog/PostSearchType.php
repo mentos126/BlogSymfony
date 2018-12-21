@@ -14,11 +14,11 @@ class PostSearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('partTitle', null /*StringType::class*/, [
+            ->add('partTitle', null, [
                 'required' => false,
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Rechercher',
+                    'placeholder' => 'Search',
                     'class' => 'form-control',
                 ]
             ])
@@ -31,6 +31,7 @@ class PostSearchType extends AbstractType
             'data_class' => 'AppBundle\Entity\Blog\PostSearch',
             'method' => 'get',
             'csrf_protection' => false,
+            'translation_domain' => 'forms'
         ));
     }
 

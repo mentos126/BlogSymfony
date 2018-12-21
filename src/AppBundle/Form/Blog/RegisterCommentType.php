@@ -14,11 +14,11 @@ class RegisterCommentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('message', null /*StringType::class*/, [
+            ->add('message', null, [
                 'required' => false,
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Rechercher',
+                    'placeholder' => 'Comment',
                     'class' => 'form-control',
                 ]
             ])
@@ -30,7 +30,7 @@ class RegisterCommentType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Blog\RegisterComment',
             'method' => 'get',
-            //'csrf_protection' => false,
+            'translation_domain' => 'forms'
         ));
     }
 

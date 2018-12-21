@@ -3,8 +3,33 @@ In progress:
 
 TODO:
 
-translation
 picture
 acount
 relation post <-> profile
 relation profile <-> comment
+cache
+
+------------
+
+git FOSUserBundle
+
+https://github.com/FriendsOfSymfony/FOSUserBundle
+https://symfony.com/doc/master/bundles/FOSUserBundle/index.html
+
+ php composer.phar require friendsofsymfony/user-bundle "~2.0"
+
+php-cli.ini
+memory_limit=2g
+
+vim app/AppKernel.php
+        new FOS\UserBundle\FOSUserBundle(),
+
+suivre la doc ...
+
+??? composer require symfony/templating
+
+
+fos user:
+    ...
+    service:
+        mailer: fos_user.mailer.twig_swift
