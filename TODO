@@ -1,12 +1,12 @@
 In progress:
 
 acount
+relation post <-> profile
+relation profile <-> comment
 
 TODO:
 
 picture
-relation post <-> profile
-relation profile <-> comment
 cache
 
 -resetPassword
