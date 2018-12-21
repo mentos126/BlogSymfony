@@ -1,5 +1,6 @@
-blogDTER
-========
+# blogDTER
 
-
-A Symfony project created on November 29, 2018, 4:22 pm.
+ ● Nom & Prénom des participants au projet (2 maximum),  
+ ● Compte et accès,  
+ ● Commentaires,  
+ ● Appréciation sur le cours pour l’année suivante (facultatif).

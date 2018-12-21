@@ -42,6 +42,12 @@ class Comment
     private $post;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="comments")
+     */
+    private $user;
+
+
+    /**
      * Get id
      *
      * @return int
@@ -101,11 +107,11 @@ class Comment
 
 
 
-/**
-     * Set comments
+    /**
+     * Set post
      *
      *
-     * @return Comment
+     * @return Post
      */
     public function setPost(Post $post) : self
     {
@@ -116,13 +122,37 @@ class Comment
 
 
     /**
-     * Get comments
+     * Get post
      *
      * @return Post
      */
-    public function getComments() : Post
+    public function getPost() : Post
     {
         return $this->post;
+    }
+
+    /**
+     * Set user
+     *
+     *
+     * @return User
+     */
+    public function setUser(User $user) : self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+
+    /**
+     * Get user
+     *
+     * @return User
+     */
+    public function getUser() : User
+    {
+        return $this->user;
     }
 
 

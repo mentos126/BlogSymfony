@@ -8,6 +8,7 @@ TODO:
 cache
 block page to user not permise
 diviser les controleurs
+secure crud with fosuser
 
 -picture impossible sur heroku !!!
 -resetPassword

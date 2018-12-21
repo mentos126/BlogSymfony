@@ -89,6 +89,11 @@ class Post
 
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="posts")
+     */
+    private $user;
+
+    /**
      * Get id
      *
      * @return int
@@ -224,7 +229,7 @@ class Post
     }
 
     /**
-     * Set comments
+     * Add comment
      *
      *
      * @return Post
@@ -240,7 +245,7 @@ class Post
     }
 
     /**
-     * Set comments
+     * Remove comment
      *
      *
      * @return Post
